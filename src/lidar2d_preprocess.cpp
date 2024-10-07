@@ -92,9 +92,11 @@ void CLiDARpreprocess::scanCallback(const sensor_msgs::LaserScan::ConstPtr& pt) 
 		preproc_scan.range_min = pt->range_min;
 		preproc_scan.range_max = pt->range_max;
 		preproc_scan.ranges.resize(pt->ranges.size());
-		preproc_scan.intensities.resize(pt->ranges.size());
+		preproc_scan.intensities.resize(pt->intensities.size());
 
    		//string s = "";
+   		//ROS_INFO("Size of ranges array: %ld; size of intensities array: %ld",
+   		//	pt->ranges.size(), pt->intensities.size());
 
 		for (int i = 0; i < pt->ranges.size(); i++)
 		{
@@ -107,12 +109,17 @@ void CLiDARpreprocess::scanCallback(const sensor_msgs::LaserScan::ConstPtr& pt) 
 				preproc_scan.ranges[i] = numeric_limits<float>::infinity();
 				//s += ("\n" + to_string(i) + " : " + to_string(pt->ranges[i])
 				//		+ " --> " + to_string(preproc_scan.ranges[i]) );
+				if (pt->intensities.size() > 0) preproc_scan.intensities[i] = 0;
 			}
-			else preproc_scan.ranges[i] = pt->ranges[i];
+			else {
+				preproc_scan.ranges[i] = pt->ranges[i];
+				// just republish intensity, if available
+				if (pt->intensities.size() > 0) preproc_scan.intensities[i] = pt->intensities[i];
+			}
 
-			preproc_scan.intensities[i] = pt->intensities[i];
 		}
 		//ROS_INFO("Discarded readings:%s", s.c_str());
+
 		laser_pub.publish(preproc_scan);
 	}
 	else // nothing to preprocess; just republish the same scan in output topic
