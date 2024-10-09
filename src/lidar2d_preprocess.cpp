@@ -47,7 +47,7 @@ CLiDARpreprocess::CLiDARpreprocess(ros::NodeHandle &node_handle) : private_node_
     // default values of ROS node parameters
     private_node_handle.param<string>("in_topic", input_topic, default_input_topic);
     private_node_handle.param<string>("out_topic", output_topic, default_output_topic);
-	private_node_handle.param("distance_th", indexes, default_indexes);
+	private_node_handle.param("indexes", indexes, default_indexes);
 
 	//read ROS node parameters
 	string paramName;
