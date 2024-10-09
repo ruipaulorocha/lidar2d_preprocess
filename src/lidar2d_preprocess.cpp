@@ -122,7 +122,7 @@ CLiDARpreprocess::CLiDARpreprocess() : Node(node_name)
 	this->get_parameter("in_topic", input_topic);
 	RCLCPP_INFO_STREAM(this->get_logger(), "Parameter 'in_topic' set succesfully to '" << input_topic << "'");
 	this->get_parameter("out_topic", output_topic);
-	RCLCPP_INFO_STREAM(this->get_logger(), "Parameter 'output_topic' set succesfully to '" << output_topic << "'");
+	RCLCPP_INFO_STREAM(this->get_logger(), "Parameter 'out_topic' set succesfully to '" << output_topic << "'");
 	this->get_parameter("indexes", indexes);
 	RCLCPP_INFO_STREAM(this->get_logger(), "indexes parameter set succesfully");
 
