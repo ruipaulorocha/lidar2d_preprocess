@@ -32,9 +32,8 @@ Pre-process the LRF scan by discarding undesirable readings.
     - Topic with input raw data from LRF to be subscribed.
 - `out_topic` (string, default: `scan_out`)
     - Topic where LRF pre-processed data is published.    
-- `indexes` (integer array, default: `[820, 825, 1142, 1151]`)
-    - Indexes array that defines which LRF readings are discarded. The default value means 2 ranges: readings between indexes 820 and 825 and readings between indexes 1142 and 1151. If the size of the array is odd, the last index of the array is ignored. If the array is empty, the output scan becomes equal to the input scan (no pre-processing is done).
-
+- `indexes` (integer array, default: `[ ]`)
+    - Indexes array that defines which LRF readings are discarded. For instance, if the array is `[820, 825, 1142, 1151]`, it means 2 ranges: readings between indexes 820 and 825 and readings between indexes 1142 and 1151. If the size of the array is odd, the last index of the array is ignored. If the array is empty, which is its default value, the output scan becomes equal to the input scan (no pre-processing is done), i.e. the node just republishes each scan as is.
 
 
 ##### `distance_histogram`

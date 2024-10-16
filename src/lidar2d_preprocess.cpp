@@ -59,7 +59,8 @@ const char node_name[] = "lidar2d_preprocess";
 // default values of ROS node parameters
 const string default_input_topic  = "scan_in";
 const string default_output_topic = "scan_out";
-const vector<long int> default_indexes{820, 825, 1142, 1151};
+//const vector<long int> default_indexes{820, 825, 1142, 1151};
+const vector<long int> default_indexes{};
 
 //class CLiDARpreprocess{
 class CLiDARpreprocess : public rclcpp::Node {
