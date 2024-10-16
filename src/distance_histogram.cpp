@@ -253,7 +253,7 @@ int main(int argc, char** argv){
 	//CDistHistogram distHistogram(nh);
 	//ros::spin(); 			// to trigger callbacks without run loop
 
-	rclcpp::Rate rate(10000.0); // loop rate = 10 kHz
+	rclcpp::Rate rate(100.0); // loop rate = 100 Hz
 	std::shared_ptr<rclcpp::Node> node = std::make_shared<CDistHistogram>();
 	
 	// spin without controlling explicitly in main() the execution loop

@@ -263,7 +263,7 @@ int main(int argc, char** argv){
 	// ros::spin(); 			// to trigger callbacks without run loop
 	// //preprocess.run(); 	// run loop with processing rate control
 
-	rclcpp::Rate rate(10000.0); // loop rate = 10 kHz
+	rclcpp::Rate rate(100.0); // loop rate = 100 Hz
 	std::shared_ptr<rclcpp::Node> node = std::make_shared<CLiDARpreprocess>();
 
 	// spin without controlling explicitly in main() the execution loop
