@@ -1,11 +1,11 @@
 /*********************************************************************
  * Software License Agreement (BSD 3-Clause License)
  * 
- *  Copyright (c) Rui P. Rocha, 2024
- »
+ *  Copyright (c) Rui P. Rocha, 2024, 2025
+ *
  *  All rights reserved.
  * 
- *  Version 2.0.0, Oct. 8, 2024
+ *  Version 2.0.1, May 10, 2025
  * 
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions
@@ -75,15 +75,16 @@ private:
 	//dynamic_reconfigure::Server<lidar2d_preprocess::distance_histogram_Config>::CallbackType f;
 	rclcpp::Subscription<sensor_msgs::msg::LaserScan>::SharedPtr laser_sub;
 
-	std::shared_ptr<rclcpp::ParameterEventHandler> param_subscriber;
-  	std::shared_ptr<rclcpp::ParameterCallbackHandle> cb_handle_param_upd; 
+	//std::shared_ptr<rclcpp::ParameterEventHandler> param_subscriber;
+  	//std::shared_ptr<rclcpp::ParameterCallbackHandle> cb_handle_param_upd; 
 
 	int nbins;
 	int *histogram;
 
 	// callback
 	//void scanCallback(const sensor_msgs::LaserScan::ConstPtr& pt) const;
-	void scanCallback(const sensor_msgs::msg::LaserScan &ptref) const;
+	//void scanCallback(const sensor_msgs::msg::LaserScan &ptref) const;
+	void scanCallback(const sensor_msgs::msg::LaserScan::SharedPtr pt) const;
 	//void dynreconfCallback(lidar2d_preprocess::distance_histogram_Config &config, uint32_t level);
 
 	// private methods
@@ -132,24 +133,25 @@ CDistHistogram::CDistHistogram() : Node(node_name)
 	laser_sub = this->create_subscription<sensor_msgs::msg::LaserScan>(topic.c_str(), 10,
 				std::bind(&CDistHistogram::scanCallback, this, std::placeholders::_1));
 
-	param_subscriber = std::make_shared<rclcpp::ParameterEventHandler>(this);
-	// Set a callback for this node's parameter, "distance_th" (a lambda function)
-    auto callback_distance_th = [this](const rclcpp::Parameter &p) {
-      RCLCPP_INFO_STREAM(this->get_logger(),
-                  "callback_distance_th: received an update to parameter \"" << p.get_name() 
-                  << "\" " << "of type \"" << p.get_type_name() << '"');
-      this->distance_th = p.as_double_array();
-      this->configHistogram();
-    };
+	// param_subscriber = std::make_shared<rclcpp::ParameterEventHandler>(this);
+	// // Set a callback for this node's parameter, "distance_th" (a lambda function)
+    // auto callback_distance_th = [this](const rclcpp::Parameter &p) {
+    //   RCLCPP_INFO_STREAM(this->get_logger(),
+    //               "callback_distance_th: received an update to parameter \"" << p.get_name() 
+    //               << "\" " << "of type \"" << p.get_type_name() << '"');
+    //   this->distance_th = p.as_double_array();
+    //   this->configHistogram();
+    // };
 
-    cb_handle_param_upd = param_subscriber->add_parameter_callback("distance_th", callback_distance_th);
+    // cb_handle_param_upd = param_subscriber->add_parameter_callback("distance_th", callback_distance_th);
 }
 
 CDistHistogram::~CDistHistogram(){ delete []histogram; }
 
 //void CDistHistogram::scanCallback(const sensor_msgs::LaserScan::ConstPtr& pt) const{
-void CDistHistogram::scanCallback(const sensor_msgs::msg::LaserScan &ptref) const{
-	const sensor_msgs::msg::LaserScan *pt = &ptref; // just to adapt to paramenter that now is a reference (not a pointer)
+//void CDistHistogram::scanCallback(const sensor_msgs::msg::LaserScan &ptref) const{
+void CDistHistogram::scanCallback(const sensor_msgs::msg::LaserScan::SharedPtr pt) const{
+	//const sensor_msgs::msg::LaserScan *pt = &ptref; // just to adapt to paramenter that now is a reference (not a pointer)
 
 	const int size = pt->ranges.size(); // number of points in the scan
 	if (nbins < 2) return; // invalid histogram (just one bin)
